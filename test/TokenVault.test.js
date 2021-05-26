@@ -1,9 +1,9 @@
-
 'use strict';
 
 // Imports.
-import { ethers } from 'hardhat';
-import 'chai/register-should';
+const { ethers } = require('hardhat');
+require('chai/register-should');
+
 
 // Test the TokenVault with Timelock and MultiSigWallet functionality.
 describe('TokenVault', function () {
@@ -27,7 +27,7 @@ describe('TokenVault', function () {
 	// Deploy a fresh set of smart contracts for testing with.
 	let token, multiSig, timeLock, tokenVault;
 	beforeEach(async () => {
-		token = await Token.connect(alice.signer).deploy('Token', 'TOK', ethers.utils.parseEther('1000000000'));
+		token = await upgrades.deployProxy(Token, [alice.address, alice.address, ethers.utils.parseEther('1000000000')], { initializer: 'initialize' });
 		await token.deployed();
 		multiSig = await MultiSigWallet.connect(alice.signer).deploy([ alice.address, bob.address, carol.address ], 2);
 		await multiSig.deployed();
@@ -36,7 +36,7 @@ describe('TokenVault', function () {
 		tokenVault = await TokenVault.connect(alice.signer).deploy('Vault One', token.address, multiSig.address, multiSig.address, 3);
 		await tokenVault.deployed();
 		await tokenVault.connect(alice.signer).transferOwnership(timeLock.address);
-		await token.connect(alice.signer).mint(tokenVault.address, ethers.utils.parseEther('1000000000'));
+		await token.connect(alice.signer).transfer(tokenVault.address, ethers.utils.parseEther('1000000000'));
 	});
 
 	// Verify that the multisignature wallet can send tokens from the vault.

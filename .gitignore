@@ -9,3 +9,7 @@ dist
 experimental_contracts
 # Files
 .env
+
+scripts/arguments.js
+scripts/deploy_args.js
+contract_address.txt

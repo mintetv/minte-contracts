@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.6.12;
-pragma experimental ABIEncoderV2;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./MinteToken.sol";
 
@@ -31,7 +30,7 @@ contract TokenVault is Ownable, ReentrancyGuard {
   string public name;
 
   /// The token to hold safe.
-  Token public token;
+  MinteToken public token;
 
   /**
     The panic owner is an optional address allowed to immediately send the
@@ -93,7 +92,7 @@ contract TokenVault is Ownable, ReentrancyGuard {
     @param _panicDestination The destination to withdraw to in emergency.
     @param _panicLimit A limit for the number of times `panic` can be called before tokens burn.
   */
-  constructor(string memory _name, Token _token, address _panicOwner, address _panicDestination, uint256 _panicLimit) public {
+  constructor(string memory _name, MinteToken _token, address _panicOwner, address _panicDestination, uint256 _panicLimit) public {
     name = _name;
     token = _token;
     panicOwner = _panicOwner;

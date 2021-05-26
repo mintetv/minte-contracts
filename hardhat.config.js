@@ -35,7 +35,12 @@ module.exports = {
   solidity: {
 		compilers: [
       {
-				version: '0.4.15'
+				version: '0.8.0',
+        settings: {
+					optimizer: {
+						enabled: true
+					}
+				}
 			},
 			{
 				version: '0.6.12',
@@ -62,13 +67,9 @@ module.exports = {
 				}
 			},
       {
-				version: '0.8.0',
-        settings: {
-					optimizer: {
-						enabled: true
-					}
-				}
+				version: '0.4.15'
 			}
+
 		]
 	},
 
@@ -96,6 +97,7 @@ module.exports = {
     // Your API key for Etherscan
     // Obtain one at https://etherscan.io/
     apiKey: process.env.ETHERSCAN_TOKEN
+    // apiKey: process.env.BSCSCAN_TOKEN
   },
   bscscan: {
     // Your API key for Etherscan
